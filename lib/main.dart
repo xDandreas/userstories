@@ -216,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     print(snapshot.data);
 
-                    if (snapshot.data == null) {
+                    if (snapshot.data == null && snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: Container(
                             width: 160,
@@ -237,7 +237,30 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             )),
                       );
-                    } else {
+                    }
+                    else if(snapshot.data == null){
+                      return Center(
+                        child: Container(
+                            width: 280,
+                            height: 250,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 120,
+                                  width: 100,
+                                  child: Image.network(
+                                              "https://icon-library.com/images/white-magnifying-glass-icon-png/white-magnifying-glass-icon-png-0.jpg"),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 20),
+                                  child: Text('Sorry we do not have books for that title. Please try a different search.', style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+                                )
+
+                              ],
+                            )),
+                      );
+                    }
+                    else {
                       return ListView.builder(
                         itemExtent: 173.0,
                         itemCount: snapshot.data.length,
